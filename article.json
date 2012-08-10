@@ -6,10 +6,6 @@
 	"authors": [
 	  { "name": "Charlie McConnell",
 		  "url": "https://github.com/avianflu"
-    },
-    { "name": "Pedro Teixeira",
-		  "email": "pedro.teixeira@gmail.com",
-		  "url": "https://github.com/pgte"
     }
 	],
 	"difficulty": 2,
