@@ -6,25 +6,29 @@ Handling form data and file uploads properly is an important and complex problem
 
 With `node-formidable` you start off with a regular HTTP server;
 
-    require('http').createServer(function(req, res) {
-      res.end('Hello World!');
-    }).listen(8080);
+```javascript
+require('http').createServer(function(req, res) {
+  res.end('Hello World!');
+}).listen(8080);
+```
 
 This server should deliver an HTML form so we can test the form parser:
 
-		require('http').createServer(function(req, res) {
-		  var method = req.method.toLowerCase();
-		  if (method === 'get') {
-		  	res.setHeader('Content-Type', 'text/html');
-		    res.end(
-		      '<form action="/" enctype="multipart/form-data" method="post">'+
-		      '<input type="text" name="title"><br>'+
-		      '<input type="file" name="upload" multiple="multiple"><br>'+
-		      '<input type="submit" value="Upload">'+
-		      '</form>'
-		    );
-		  }
-		}).listen(8080);
+```javascript
+require('http').createServer(function(req, res) {
+  var method = req.method.toLowerCase();
+  if (method === 'get') {
+    res.setHeader('Content-Type', 'text/html');
+    res.end(
+      '<form action="/" enctype="multipart/form-data" method="post">'+
+      '<input type="text" name="title"><br>'+
+      '<input type="file" name="upload" multiple="multiple"><br>'+
+      '<input type="submit" value="Upload">'+
+      '</form>'
+    );
+  }
+}).listen(8080);
+```
 
 The server now responds with a simple for should the request method be GET.
 
@@ -44,34 +48,35 @@ First you need to install the `node-formidable` inside the current node_modules 
 
 Now you can import the package inside your server script and handle the POST methods:
 
+```javascript
 var formidable = require('formidable');
 
-	var formidable = require('formidable');
+var formidable = require('formidable');
 
-	require('http').createServer(function(req, res) {
-	  var method = req.method.toLowerCase();
-	  if (method === 'get') {
-	  	res.setHeader('Content-Type', 'text/html');
-	    res.end(
-	      '<form action="/" enctype="multipart/form-data" method="post">'+
-	      '<input type="text" name="title"><br>'+
-	      '<input type="file" name="upload" multiple="multiple"><br>'+
-	      '<input type="submit" value="Upload">'+
-	      '</form>'
-	    );
-	  } else if (method === 'post') {
-	  	
-	  	// Instantiate a new formidable form for processing.      
-	    var form = new formidable.IncomingForm();
-	    form.parse(req, function(err, fields, files) {
-	    	if (err) { throw err; }
-	    	console.log('fields:', fields);
-	    	console.log('files:', files);
-	    	res.end();
-	    });
-
-	  }
-	}).listen(8080);
+require('http').createServer(function(req, res) {
+  var method = req.method.toLowerCase();
+  if (method === 'get') {
+    res.setHeader('Content-Type', 'text/html');
+    res.end(
+      '<form action="/" enctype="multipart/form-data" method="post">'+
+      '<input type="text" name="title"><br>'+
+      '<input type="file" name="upload" multiple="multiple"><br>'+
+      '<input type="submit" value="Upload">'+
+      '</form>'
+    );
+  } else if (method === 'post') {
+  	
+    // Instantiate a new formidable form for processing.      
+    var form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+      if (err) { throw err; }
+      console.log('fields:', fields);
+      console.log('files:', files);
+      res.end();
+    });
+  }
+}).listen(8080);
+```
 
 Now, when handling a POST message, we do several new things. First we instantiate an incoming for handler provided by `node-formidable` by using `new formidable.IncomingForm()`. Then we ask it to parse the request, providing it a callback function. This callback function gets three arguments.
 
@@ -89,6 +94,7 @@ Save this script again into a file named "server.js" and then fire it up:
 
 Point your browser to [it](http://localhost:8080), fill the form and click on Submit. You should see a response like this:
 
+```javascript
     { fields: { title: 'Hello' },
     files: 
      { upload: 
@@ -101,6 +107,7 @@ Point your browser to [it](http://localhost:8080), fill the form and click on Su
           length: [Getter],
           filename: [Getter],
           mime: [Getter] } } }
+```
 
 ## More
 
